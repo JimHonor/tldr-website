@@ -7,7 +7,10 @@ const postsDir = join(process.cwd(), "_content");
 
 // get post file names
 const getPostSlugs = () => {
-  return readdirSync(postsDir);
+  const filenames = readdirSync(postsDir).filter(
+    (filename) => filename !== ".git"
+  );
+  return filenames;
 };
 
 const getPostByFilenames = (slug: string) => {
