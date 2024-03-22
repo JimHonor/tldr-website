@@ -15,19 +15,19 @@ type Props = {
 export default function CopyButton({ value }: Props) {
   const [copied, setCopied] = useState(false);
 
-  const timeoutIdRef = useRef<number>(null);
+  const timeoutIdRef = useRef<number | undefined>(undefined);
 
   const handleClick = () => {
     if (!copied) {
       setCopied(true);
-      timeoutIdRef.current = setTimeout(() => {
+      timeoutIdRef.current = window.setTimeout(() => {
         setCopied(false);
       }, 1000);
 
       copyToClipboard(value);
     } else {
-      clearTimeout(timeoutIdRef.current);
-      timeoutIdRef.current = setTimeout(() => {
+      window.clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = window.setTimeout(() => {
         setCopied(false);
       }, 1000);
     }
