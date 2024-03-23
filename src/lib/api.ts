@@ -6,10 +6,12 @@ import { join } from "path";
 const postsDir = join(process.cwd(), "_content");
 
 // get post file names
+const EXCLUDES = [".git", ".github"];
 const getPostSlugs = () => {
   const filenames = readdirSync(postsDir).filter(
-    (filename) => filename !== ".git"
+    (filename) => !EXCLUDES.includes(filename)
   );
+  console.log("filenames", filenames);
   return filenames;
 };
 
