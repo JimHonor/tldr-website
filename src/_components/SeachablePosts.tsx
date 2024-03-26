@@ -9,7 +9,7 @@ type Props = {
   posts: Post[];
 };
 
-export default function Home({ posts }: Props) {
+export default function SearchablePosts({ posts }: Props) {
   const [searchterm, setSearchterm] = useState("");
 
   const filterPosts = useMemo(

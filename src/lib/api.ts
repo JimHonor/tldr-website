@@ -7,7 +7,7 @@ const postsDir = join(process.cwd(), "_content");
 
 // get post file names
 const EXCLUDES = [".git", ".github"];
-const getPostSlugs = () => {
+const getFilenames = () => {
   const filenames = readdirSync(postsDir).filter(
     (filename) => !EXCLUDES.includes(filename)
   );
@@ -15,29 +15,29 @@ const getPostSlugs = () => {
   return filenames;
 };
 
-const getPostByFilenames = (slug: string) => {
-  const realSlug = slugify(slug.replace(/\.md$/, ""));
-
-  const fullPath = join(postsDir, slug);
-  const fileContent = readFileSync(fullPath, "utf-8");
-  const { data, content } = matter(fileContent);
-
-  return { ...data, slug: realSlug, content } as Post;
-};
-
-export const getPostBySlug = (slug: string) => {
-  const filename = unslug(slug) + ".md";
+const getPostByFilename = (filename: string) => {
   const fullPath = join(postsDir, filename);
   const fileContent = readFileSync(fullPath, "utf-8");
   const { data, content } = matter(fileContent);
+  const slug = slugify(data.title); // Use post title as slug / permalink
 
   return { ...data, slug, content } as Post;
 };
 
 export const getAllPosts = () => {
-  const slugs = getPostSlugs();
-  const posts = slugs.map((slug) => getPostByFilenames(slug));
+  const filenames = getFilenames();
+  const posts = filenames.map((filename) => getPostByFilename(filename));
   return posts;
+};
+
+export const getPostSlugs = () => {
+  const posts = getAllPosts();
+  return posts.map((post) => post.slug);
+};
+
+export const getPostBySlug = (slug: string) => {
+  const posts = getAllPosts();
+  return posts.find((post) => post.slug === slug);
 };
 
 //
