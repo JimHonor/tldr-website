@@ -8,6 +8,7 @@ export default function page() {
   return (
     <div className="max-w-xl mx-auto">
       <Header />
+      <p>test</p>
       <SearchablePosts posts={posts} />
     </div>
   );
